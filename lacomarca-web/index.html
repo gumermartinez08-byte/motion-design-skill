@@ -46,12 +46,17 @@
     <!-- ============ HERO (recorrido con scroll) ============ -->
     <section class="hero" id="inicio" data-hero>
       <div class="hero__media" data-hero-media>
-        <img src="https://lacomarcameats.com/wp-content/uploads/2022/04/la-comarca-meats-instalaciones-05.jpg" alt="" fetchpriority="high">
+        <!-- Video de la web original. Si existe video/hero.mp4 (recodificado para scroll con
+             scripts/encode-scrub.sh) se usa ese; si no, el de lacomarcameats.com. -->
+        <video data-scrub muted playsinline preload="auto"
+               poster="https://lacomarcameats.com/wp-content/uploads/2022/04/la-comarca-meats-instalaciones-05.jpg"
+               data-src-local="video/hero.mp4"
+               data-src-remote="https://lacomarcameats.com/wp-content/uploads/2020/07/video-home-la-comarca-meats-1.mp4"></video>
       </div>
       <div class="hero__shade" data-hero-shade></div>
 
       <div class="hero__scene hero__scene--1" data-hero-s1>
-        <p class="eyebrow" data-split data-i18n="hero.eyebrow">Carne de cerdo · Lorca, Murcia</p>
+        <p class="eyebrow" data-i18n="hero.eyebrow">Carne de cerdo · Lorca, Murcia</p>
         <h1 class="display">
           <span class="line"><span data-i18n="hero.title">La Comarca Meats</span></span>
           <span class="line"><em class="serif accent-text" data-i18n="hero.accent">Origen de confianza.</em></span>
@@ -70,8 +75,8 @@
         </p>
       </div>
 
+      <span class="hero__progress" data-hero-progress></span>
       <div class="hero__foot">
-        <span class="scroll-hint"><span class="scroll-hint__bar"></span><span data-i18n="hero.scroll">Desliza para recorrer</span></span>
         <button type="button" class="chip" data-skip-hero><span data-i18n="hero.skip">Saltar recorrido</span> ↓</button>
       </div>
     </section>
@@ -79,7 +84,7 @@
     <!-- ============ TRADICIÓN ============ -->
     <section class="section split" id="nosotros">
       <div class="split__text">
-        <p class="kicker" data-reveal><span class="kicker__num">01</span><span data-i18n="trad.kicker">Marca España</span></p>
+        <p class="kicker" data-reveal><span data-i18n="trad.kicker">Marca España</span></p>
         <h2 class="title" data-reveal>
           <span data-i18n="trad.title">Tradición, raíces y</span>
           <em class="serif accent-text" data-i18n="trad.accent">marca España.</em>
@@ -95,30 +100,40 @@
     <!-- ============ INNOVACIÓN ============ -->
     <section class="section innov" id="innovacion">
       <div class="innov__head">
-        <p class="kicker" data-reveal><span class="kicker__num">02</span><span data-i18n="inno.kicker">Innovación</span></p>
+        <p class="kicker" data-reveal><span data-i18n="inno.kicker">Innovación</span></p>
         <h2 class="title" data-reveal>
           <span data-i18n="inno.title">Tecnología que</span>
           <em class="serif accent-text" data-i18n="inno.accent">se nota.</em>
         </h2>
       </div>
-      <div class="innov__stat" data-reveal>
-        <span class="bignum" data-count="25000">25.000</span>
-        <span class="innov__statlabel" data-i18n="inno.stat">cerdos despiezados a la semana</span>
-      </div>
       <p class="body innov__text" data-reveal data-i18n="inno.text">A través de nuevas instalaciones, apostamos por el poder de la más alta tecnología, innovación y automatización en sacrificio, despiece, procesado y envasado de carne de cerdo, ofreciendo al mercado nacional e internacional la capacidad de despiece de más de 25.000 cerdos a la semana.</p>
-      <div class="innov__gallery">
-        <figure class="mask innov__img innov__img--a" data-mask><img data-parallax src="https://lacomarcameats.com/wp-content/uploads/2020/05/I-01.png" alt="Instalaciones" loading="lazy"></figure>
-        <figure class="mask innov__img innov__img--b" data-mask><img data-parallax src="https://lacomarcameats.com/wp-content/uploads/2022/04/la-comarca-meats-instalaciones-05.jpg" alt="Planta de despiece" loading="lazy"></figure>
-        <figure class="mask innov__img innov__img--c" data-mask><img data-parallax src="https://lacomarcameats.com/wp-content/uploads/2020/05/I-03.png" alt="Automatización" loading="lazy"></figure>
-      </div>
       <a class="link-arrow" data-reveal href="https://lacomarcameats.com/instalaciones/" target="_blank" rel="noopener"><span data-i18n="inno.cta">Ver instalaciones</span> →</a>
+    </section>
+
+    <!-- Video de planta: el marco se abre a pantalla completa con el scroll -->
+    <section class="cinema" data-cinema aria-label="Planta La Comarca Meats">
+      <div class="cinema__frame" data-cinema-frame>
+        <video autoplay muted loop playsinline preload="metadata"
+               poster="https://lacomarcameats.com/wp-content/uploads/2020/05/I-01.png"
+               data-src-local="video/planta.mp4"
+               data-src-remote="https://lacomarcameats.com/wp-content/uploads/2020/07/Video-La-Comarca-Meats-Home-3-1.mp4"></video>
+        <div class="cinema__caption" data-cinema-caption>
+          <span class="bignum bignum--light">+25.000</span>
+          <span data-i18n="inno.stat">cerdos despiezados a la semana</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section innov-gallery">
+      <figure class="mask innov__img innov__img--a" data-mask><img data-parallax src="https://lacomarcameats.com/wp-content/uploads/2020/05/I-01.png" alt="Instalaciones" loading="lazy"></figure>
+      <figure class="mask innov__img innov__img--c" data-mask><img data-parallax src="https://lacomarcameats.com/wp-content/uploads/2020/05/I-03.png" alt="Automatización" loading="lazy"></figure>
     </section>
 
     <!-- ============ CADENA DE VALOR (pinned) ============ -->
     <section class="chain" id="cadena" data-chain>
       <div class="chain__inner">
         <div class="chain__head">
-          <p class="kicker"><span class="kicker__num">03</span><span data-i18n="chain.kicker">Cadena de valor</span></p>
+          <p class="kicker"><span data-i18n="chain.kicker">Cadena de valor</span></p>
           <h2 class="title">
             <span data-i18n="chain.title">Control integral de la</span>
             <em class="serif accent-text" data-i18n="chain.accent">cadena de producción.</em>
@@ -144,7 +159,7 @@
     <section class="section quality" id="calidad">
       <div class="quality__grid">
         <div>
-          <p class="kicker" data-reveal><span class="kicker__num">04</span><span data-i18n="qual.kicker">Calidad</span></p>
+          <p class="kicker" data-reveal><span data-i18n="qual.kicker">Calidad</span></p>
           <h2 class="title" data-reveal>
             <span data-i18n="qual.title">Calidad en cada</span>
             <em class="serif accent-text" data-i18n="qual.accent">eslabón.</em>
@@ -176,7 +191,7 @@
         <img data-parallax src="https://lacomarcameats.com/wp-content/uploads/2020/05/la-comarca-meats-home-Trazabilidad.png" alt="Trazabilidad" loading="lazy">
       </figure>
       <div class="split__text">
-        <p class="kicker" data-reveal><span class="kicker__num">05</span><span data-i18n="trace.kicker">Trazabilidad</span></p>
+        <p class="kicker" data-reveal><span data-i18n="trace.kicker">Trazabilidad</span></p>
         <h2 class="title" data-reveal>
           <span data-i18n="trace.title">Tecnología en</span>
           <em class="serif accent-text" data-i18n="trace.accent">trazabilidad.</em>
@@ -186,10 +201,10 @@
       </div>
     </section>
 
-    <!-- ============ PRODUCTOS POR PARTES (pinned) ============ -->
+    <!-- ============ PRODUCTOS POR PARTES (diagrama fijo + fichas del catálogo) ============ -->
     <section class="products" id="productos" data-products>
       <div class="products__intro section">
-        <p class="kicker" data-reveal><span class="kicker__num">06</span><span data-i18n="prod.kicker">Productos</span></p>
+        <p class="kicker" data-reveal><span data-i18n="prod.kicker">Productos</span></p>
         <h2 class="title" data-reveal>
           <span data-i18n="prod.title">Del catálogo,</span>
           <em class="serif accent-text" data-i18n="prod.accent">pieza a pieza.</em>
@@ -198,70 +213,74 @@
       </div>
 
       <div class="products__stage" data-products-stage>
-        <div class="products__diagram">
-          <svg class="pig" id="pig" viewBox="0 0 640 360" role="img" aria-label="Despiece del cerdo">
-            <defs>
-              <g id="pigShape">
-                <ellipse cx="340" cy="170" rx="200" ry="100"/>
-                <circle cx="155" cy="165" r="72"/>
-                <rect x="46" y="140" width="56" height="58" rx="18"/>
-                <polygon points="138,104 176,48 206,112"/>
-                <rect x="180" y="232" width="36" height="96" rx="14"/>
-                <rect x="232" y="240" width="36" height="88" rx="14"/>
-                <rect x="420" y="240" width="36" height="88" rx="14"/>
-                <rect x="474" y="232" width="36" height="96" rx="14"/>
+        <aside class="products__aside">
+          <div class="products__sticky">
+            <svg class="pig" id="pig" viewBox="0 0 640 360" role="img" aria-label="Despiece del cerdo">
+              <defs>
+                <g id="pigShape">
+                  <ellipse cx="340" cy="170" rx="200" ry="100"/>
+                  <circle cx="155" cy="165" r="72"/>
+                  <rect x="46" y="140" width="56" height="58" rx="18"/>
+                  <polygon points="138,104 176,48 206,112"/>
+                  <rect x="180" y="232" width="36" height="96" rx="14"/>
+                  <rect x="232" y="240" width="36" height="88" rx="14"/>
+                  <rect x="420" y="240" width="36" height="88" rx="14"/>
+                  <rect x="474" y="232" width="36" height="96" rx="14"/>
+                </g>
+                <clipPath id="pigClip">
+                  <ellipse cx="340" cy="170" rx="200" ry="100"/>
+                  <circle cx="155" cy="165" r="72"/>
+                  <rect x="46" y="140" width="56" height="58" rx="18"/>
+                  <polygon points="138,104 176,48 206,112"/>
+                  <rect x="180" y="232" width="36" height="96" rx="14"/>
+                  <rect x="232" y="240" width="36" height="88" rx="14"/>
+                  <rect x="420" y="240" width="36" height="88" rx="14"/>
+                  <rect x="474" y="232" width="36" height="96" rx="14"/>
+                </clipPath>
+              </defs>
+              <use href="#pigShape" class="pig__outline"/>
+              <use href="#pigShape" class="pig__fill"/>
+              <g clip-path="url(#pigClip)">
+                <polygon class="pig__zone" data-zone="cabeza"    points="0,0 206,0 206,236 0,236"/>
+                <polygon class="pig__zone" data-zone="paletas"   points="206,0 306,0 306,360 170,360 170,236 206,236"/>
+                <polygon class="pig__zone" data-zone="chuletero" points="306,0 450,0 450,166 306,166"/>
+                <polygon class="pig__zone" data-zone="panceta"   points="306,166 450,166 450,250 410,250 410,360 306,360"/>
+                <polygon class="pig__zone" data-zone="jamon"     points="450,0 640,0 640,360 410,360 410,250 450,250"/>
+                <g class="pig__cuts">
+                  <line x1="206" y1="0" x2="206" y2="236"/>
+                  <line x1="306" y1="0" x2="306" y2="268"/>
+                  <line x1="450" y1="0" x2="450" y2="250"/>
+                  <line x1="306" y1="166" x2="450" y2="166"/>
+                </g>
               </g>
-              <clipPath id="pigClip">
-                <ellipse cx="340" cy="170" rx="200" ry="100"/>
-                <circle cx="155" cy="165" r="72"/>
-                <rect x="46" y="140" width="56" height="58" rx="18"/>
-                <polygon points="138,104 176,48 206,112"/>
-                <rect x="180" y="232" width="36" height="96" rx="14"/>
-                <rect x="232" y="240" width="36" height="88" rx="14"/>
-                <rect x="420" y="240" width="36" height="88" rx="14"/>
-                <rect x="474" y="232" width="36" height="96" rx="14"/>
-              </clipPath>
-            </defs>
-            <use href="#pigShape" class="pig__outline"/>
-            <use href="#pigShape" class="pig__fill"/>
-            <g clip-path="url(#pigClip)">
-              <rect class="pig__zone" data-zone="cabeza"  x="0"   y="0"   width="212" height="252"/>
-              <rect class="pig__zone" data-zone="paleta"  x="212" y="0"   width="96"  height="252"/>
-              <rect class="pig__zone" data-zone="lomo"    x="308" y="0"   width="142" height="160"/>
-              <rect class="pig__zone" data-zone="panceta" x="308" y="160" width="142" height="92"/>
-              <rect class="pig__zone" data-zone="jamon"   x="450" y="0"   width="190" height="252"/>
-              <rect class="pig__zone" data-zone="patas"   x="0"   y="252" width="640" height="108"/>
-              <g class="pig__cuts">
-                <line x1="212" y1="0" x2="212" y2="252"/>
-                <line x1="308" y1="0" x2="308" y2="252"/>
-                <line x1="450" y1="0" x2="450" y2="252"/>
-                <line x1="308" y1="160" x2="450" y2="160"/>
-                <line x1="0" y1="252" x2="640" y2="252"/>
+              <path class="pig__tail" d="M538,150 c22,-10 30,-30 18,-38 c-12,-8 -22,8 -10,16 c10,7 26,0 32,-12"/>
+              <circle class="pig__eye" cx="128" cy="140" r="5"/>
+              <g class="pig__labels">
+                <text data-label="cabeza"    x="138" y="205"></text>
+                <text data-label="paletas"   x="256" y="200"></text>
+                <text data-label="chuletero" x="378" y="120"></text>
+                <text data-label="panceta"   x="378" y="216"></text>
+                <text data-label="jamon"     x="500" y="182"></text>
               </g>
-            </g>
-            <path class="pig__tail" d="M538,150 c22,-10 30,-30 18,-38 c-12,-8 -22,8 -10,16 c10,7 26,0 32,-12"/>
-            <circle class="pig__eye" cx="128" cy="140" r="5"/>
-            <g class="pig__labels">
-              <text data-label="cabeza"  x="140" y="200">CABEZA</text>
-              <text data-label="paleta"  x="260" y="200">PALETA</text>
-              <text data-label="lomo"    x="379" y="122">LOMO</text>
-              <text data-label="panceta" x="379" y="214">PANCETA</text>
-              <text data-label="jamon"   x="496" y="190">JAMÓN</text>
-              <text data-label="patas"   x="345" y="300">CODILLOS · MANOS</text>
-            </g>
-          </svg>
-          <ol class="products__dots" data-products-dots></ol>
-        </div>
+            </svg>
+            <div class="products__now" aria-live="polite">
+              <span class="products__now-name" data-now-name></span>
+              <span class="products__now-count" data-now-count></span>
+            </div>
+            <nav class="products__chips" data-products-chips aria-label="Partes"></nav>
+          </div>
+        </aside>
 
-        <div class="products__cards" data-products-cards>
-          <!-- generado desde js/products.js -->
+        <div class="products__list" data-products-list>
+          <!-- generado desde js/products.js (catálogo oficial) -->
         </div>
       </div>
     </section>
 
     <!-- ============ CIFRAS ============ -->
-    <section class="section figures" id="cifras">
-      <p class="kicker" data-reveal><span class="kicker__num">07</span><span data-i18n="fig.kicker">Cifras</span></p>
+    <section class="figures-band" id="cifras">
+      <div class="section figures">
+      <p class="kicker" data-reveal><span data-i18n="fig.kicker">Cifras</span></p>
       <h2 class="title" data-reveal>
         <span data-i18n="fig.title">Nuestra industria cárnica</span>
         <em class="serif accent-text" data-i18n="fig.accent">en cifras.</em>
@@ -272,13 +291,14 @@
         <li><span class="bignum" data-count="100000">100.000</span><span data-i18n="fig.3">m² de instalación</span></li>
         <li><span class="bignum" data-count="25000">25.000</span><span data-i18n="fig.4">cerdos / semana</span></li>
       </ul>
+      </div>
     </section>
 
     <!-- ============ CATÁLOGO ============ -->
     <section class="section catalog" id="catalogo">
       <div class="catalog__card">
         <div class="catalog__text">
-          <p class="kicker" data-reveal><span class="kicker__num">08</span><span data-i18n="cat.kicker">Catálogo</span></p>
+          <p class="kicker" data-reveal><span data-i18n="cat.kicker">Catálogo</span></p>
           <h2 class="title" data-reveal>
             <span data-i18n="cat.title">Descarga nuestro</span>
             <em class="serif accent-text" data-i18n="cat.accent">último catálogo.</em>
@@ -296,7 +316,7 @@
     <section class="intl" id="internacional">
       <div class="intl__glow" aria-hidden="true"></div>
       <div class="section intl__inner">
-        <p class="kicker" data-reveal><span class="kicker__num">09</span><span data-i18n="intl.kicker">Internacional</span></p>
+        <p class="kicker" data-reveal><span data-i18n="intl.kicker">Internacional</span></p>
         <h2 class="title title--xl" data-reveal>
           <span data-i18n="intl.title">Seguridad certificada</span>
           <em class="serif accent-text" data-i18n="intl.accent">internacionalmente.</em>
@@ -312,7 +332,7 @@
     <section class="section contact" id="contacto">
       <div class="contact__grid">
         <div>
-          <p class="kicker" data-reveal><span class="kicker__num">10</span><span data-i18n="contact.kicker">Contacto</span></p>
+          <p class="kicker" data-reveal><span data-i18n="contact.kicker">Contacto</span></p>
           <h2 class="title" data-reveal>
             <span data-i18n="contact.title">Hablemos de</span>
             <em class="serif accent-text" data-i18n="contact.accent">tu próximo pedido.</em>
@@ -375,6 +395,24 @@
       </span>
     </div>
   </footer>
+
+  <!-- ============ FICHA DE PRODUCTO ============ -->
+  <div class="modal" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="pm-title" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel modal__panel--product">
+      <button type="button" class="modal__close" data-close-modal aria-label="Cerrar">×</button>
+      <div class="pm__media"><img data-pm-img alt=""></div>
+      <div class="pm__body">
+        <p class="kicker" data-pm-part></p>
+        <h2 id="pm-title" class="modal__title" data-pm-title></h2>
+        <p class="pm__alt" data-pm-alt></p>
+        <div class="hook__ctas">
+          <a class="btn btn--accent" href="tel:+34968472800" data-contacted><span data-i18n="prod.ask">Solicitar información</span></a>
+          <a class="btn btn--ghost" href="https://lacomarcameats.com/catalogo_lacomarca_esp_eng.pdf" target="_blank" rel="noopener" data-i18n="prod.download">Descargar catálogo</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ POP-UP IDIOMA ============ -->
   <div class="modal" id="lang-modal" role="dialog" aria-modal="true" aria-labelledby="lang-title" hidden>
