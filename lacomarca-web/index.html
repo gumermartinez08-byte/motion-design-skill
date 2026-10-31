@@ -29,15 +29,17 @@
       <a href="#productos" data-i18n="nav.products">Productos</a>
       <a href="#calidad" data-i18n="nav.quality">Calidad</a>
       <a href="#cifras" data-i18n="nav.figures">Cifras</a>
+      <a href="#redes" data-i18n="nav.social">Redes</a>
       <a href="#contacto" data-i18n="nav.contact">Contacto</a>
     </nav>
     <div class="header__actions">
       <div class="lang-switch" role="group" aria-label="Idioma / Language">
         <button type="button" data-set-lang="es">ES</button>
         <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="zh" lang="zh">中文</button>
+        <button type="button" data-set-lang="ja" lang="ja">日本語</button>
       </div>
       <button type="button" class="btn btn--accent btn--sm" data-open-contact data-i18n="cta.contact">Contactar</button>
-      <button type="button" class="burger" aria-label="Menú" aria-expanded="false" data-burger><span></span><span></span></button>
     </div>
   </header>
 
@@ -143,14 +145,21 @@
         <div class="chain__track">
           <div class="chain__line"><span data-chain-progress></span></div>
           <ol class="chain__steps">
-            <li data-chain-step><span class="chain__n">01</span><span data-i18n="chain.s1">Genética</span></li>
-            <li data-chain-step><span class="chain__n">02</span><span data-i18n="chain.s2">Piensos</span></li>
-            <li data-chain-step><span class="chain__n">03</span><span data-i18n="chain.s3">Cría</span></li>
-            <li data-chain-step><span class="chain__n">04</span><span data-i18n="chain.s4">Granjas</span></li>
-            <li data-chain-step><span class="chain__n">05</span><span data-i18n="chain.s5">Mataderos</span></li>
-            <li data-chain-step><span class="chain__n">06</span><span data-i18n="chain.s6">Despiece</span></li>
-            <li data-chain-step><span class="chain__n">07</span><span data-i18n="chain.s7">Congelado</span></li>
+            <li data-chain-step><span class="chain__n">01</span><span class="chain__name" data-i18n="chain.s1">Genética</span><p class="chain__desc" data-i18n="chain.d1"></p></li>
+            <li data-chain-step><span class="chain__n">02</span><span class="chain__name" data-i18n="chain.s2">Piensos</span><p class="chain__desc" data-i18n="chain.d2"></p></li>
+            <li data-chain-step><span class="chain__n">03</span><span class="chain__name" data-i18n="chain.s3">Cría</span><p class="chain__desc" data-i18n="chain.d3"></p></li>
+            <li data-chain-step><span class="chain__n">04</span><span class="chain__name" data-i18n="chain.s4">Granjas</span><p class="chain__desc" data-i18n="chain.d4"></p></li>
+            <li data-chain-step><span class="chain__n">05</span><span class="chain__name" data-i18n="chain.s5">Mataderos</span><p class="chain__desc" data-i18n="chain.d5"></p></li>
+            <li data-chain-step><span class="chain__n">06</span><span class="chain__name" data-i18n="chain.s6">Despiece</span><p class="chain__desc" data-i18n="chain.d6"></p></li>
+            <li data-chain-step><span class="chain__n">07</span><span class="chain__name" data-i18n="chain.s7">Congelado</span><p class="chain__desc" data-i18n="chain.d7"></p></li>
           </ol>
+          <div class="chain__detail" data-chain-detail aria-live="polite">
+            <span class="chain__detail-n" data-chain-detail-n>01</span>
+            <div>
+              <h3 class="chain__detail-title" data-chain-detail-title></h3>
+              <p class="chain__detail-text" data-chain-detail-text></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -209,7 +218,72 @@
           <span data-i18n="prod.title">Del catálogo,</span>
           <em class="serif accent-text" data-i18n="prod.accent">pieza a pieza.</em>
         </h2>
-        <p class="body" data-reveal data-i18n="prod.text">Carne de cerdo fresca y congelada de la más alta calidad, ordenada por partes del animal.</p>
+        <p class="body" data-reveal data-i18n="prod.text"></p>
+      </div>
+
+      <div class="explorer" data-explorer>
+        <svg class="bigpig" viewBox="-40 -40 720 440" role="img" aria-label="Despiece del cerdo" data-bigpig>
+          <defs>
+            <clipPath id="bigClip">
+              <ellipse cx="340" cy="170" rx="200" ry="100"/>
+              <circle cx="155" cy="165" r="72"/>
+              <rect x="46" y="140" width="56" height="58" rx="18"/>
+              <polygon points="138,104 176,48 206,112"/>
+              <rect x="180" y="232" width="36" height="96" rx="14"/>
+              <rect x="232" y="240" width="36" height="88" rx="14"/>
+              <rect x="420" y="240" width="36" height="88" rx="14"/>
+              <rect x="474" y="232" width="36" height="96" rx="14"/>
+            </clipPath>
+            <clipPath id="cc-cabeza"><polygon points="0,0 206,0 206,236 0,236"/></clipPath>
+            <clipPath id="cc-paletas"><polygon points="206,0 306,0 306,360 170,360 170,236 206,236"/></clipPath>
+            <clipPath id="cc-chuletero"><polygon points="306,0 450,0 450,166 306,166"/></clipPath>
+            <clipPath id="cc-panceta"><polygon points="306,166 450,166 450,250 410,250 410,360 306,360"/></clipPath>
+            <clipPath id="cc-jamon"><polygon points="450,0 640,0 640,360 410,360 410,250 450,250"/></clipPath>
+          </defs>
+          <use href="#pigShape" class="bigpig__ghost"/>
+          <g class="cut" data-cut="cabeza" data-dx="-26" data-dy="-8" tabindex="0" role="button">
+            <use href="#pigShape" class="cut__edge" clip-path="url(#cc-cabeza)"/>
+            <use href="#pigShape" class="cut__fill" clip-path="url(#cc-cabeza)"/>
+            <g clip-path="url(#bigClip)"><polygon class="cut__shape" points="0,0 206,0 206,236 0,236"/></g>
+            <text class="cut__label" x="130" y="200"></text>
+          </g>
+          <g class="cut" data-cut="paletas" data-dx="-12" data-dy="14" tabindex="0" role="button">
+            <use href="#pigShape" class="cut__edge" clip-path="url(#cc-paletas)"/>
+            <use href="#pigShape" class="cut__fill" clip-path="url(#cc-paletas)"/>
+            <g clip-path="url(#bigClip)"><polygon class="cut__shape" points="206,0 306,0 306,360 170,360 170,236 206,236"/></g>
+            <text class="cut__label" x="256" y="196"></text>
+          </g>
+          <g class="cut" data-cut="chuletero" data-dx="0" data-dy="-24" tabindex="0" role="button">
+            <use href="#pigShape" class="cut__edge" clip-path="url(#cc-chuletero)"/>
+            <use href="#pigShape" class="cut__fill" clip-path="url(#cc-chuletero)"/>
+            <g clip-path="url(#bigClip)"><polygon class="cut__shape" points="306,0 450,0 450,166 306,166"/></g>
+            <text class="cut__label" x="378" y="124"></text>
+          </g>
+          <g class="cut" data-cut="panceta" data-dx="0" data-dy="22" tabindex="0" role="button">
+            <use href="#pigShape" class="cut__edge" clip-path="url(#cc-panceta)"/>
+            <use href="#pigShape" class="cut__fill" clip-path="url(#cc-panceta)"/>
+            <g clip-path="url(#bigClip)"><polygon class="cut__shape" points="306,166 450,166 450,250 410,250 410,360 306,360"/></g>
+            <text class="cut__label" x="370" y="218"></text>
+          </g>
+          <g class="cut" data-cut="jamon" data-dx="24" data-dy="4" tabindex="0" role="button">
+            <use href="#pigShape" class="cut__edge" clip-path="url(#cc-jamon)"/>
+            <use href="#pigShape" class="cut__fill" clip-path="url(#cc-jamon)"/>
+            <g clip-path="url(#bigClip)"><polygon class="cut__shape" points="450,0 640,0 640,360 410,360 410,250 450,250"/></g>
+            <text class="cut__label" x="500" y="182"></text>
+          </g>
+          <path class="bigpig__tail" d="M538,150 c22,-10 30,-30 18,-38 c-12,-8 -22,8 -10,16 c10,7 26,0 32,-12"/>
+          <circle class="bigpig__eye" cx="128" cy="140" r="5"/>
+        </svg>
+        <div class="explorer__info" data-explorer-info>
+          <p class="explorer__hint" data-explorer-hint></p>
+          <div class="explorer__card" data-explorer-card hidden>
+            <span class="explorer__count" data-explorer-count></span>
+            <h3 class="explorer__name" data-explorer-name></h3>
+            <div class="explorer__thumbs" data-explorer-thumbs></div>
+            <button type="button" class="btn btn--accent btn--sm" data-explorer-go></button>
+          </div>
+          <button type="button" class="explorer__others" data-cut-others></button>
+        </div>
       </div>
 
       <div class="products__stage" data-products-stage>
@@ -328,6 +402,39 @@
       </div>
     </section>
 
+    <!-- ============ REDES ============ -->
+    <section class="section social-sec" id="redes">
+      <div class="social-sec__head">
+        <p class="kicker" data-reveal><span data-i18n="social.kicker">Redes sociales</span></p>
+        <h2 class="title" data-reveal>
+          <span data-i18n="social.title">Síguenos en</span>
+          <em class="serif accent-text" data-i18n="social.accent">redes.</em>
+        </h2>
+        <p class="body" data-reveal data-i18n="social.text">Novedades de la planta, el equipo, ferias y mercados internacionales.</p>
+      </div>
+      <div class="social-grid" data-stagger>
+        <a class="social-card social-card--ig" href="https://www.instagram.com/lacomarcameats/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" class="fill"/></svg>
+          <span class="social-card__net">Instagram</span>
+          <span class="social-card__handle">@lacomarcameats</span>
+          <span class="social-card__cta"><span data-i18n="social.follow">Seguir</span> →</span>
+        </a>
+        <a class="social-card social-card--fb" href="https://www.facebook.com/carneslacomarca" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.5V21h3z"/></svg>
+          <span class="social-card__net">Facebook</span>
+          <span class="social-card__handle">Carnes La Comarca</span>
+          <span class="social-card__cta"><span data-i18n="social.follow">Seguir</span> →</span>
+        </a>
+        <a class="social-card social-card--in" href="https://www.linkedin.com/company/lacomarcameats/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M6.5 8.5h-3V20h3V8.5zM5 3.5a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5zM20.5 13.3c0-3-1.6-4.9-4.2-4.9-1.5 0-2.4.8-2.8 1.5V8.5h-3V20h3v-6c0-1.5.6-2.6 2-2.6s1.9 1 1.9 2.6v6h3.1v-6.7z"/></svg>
+          <span class="social-card__net">LinkedIn</span>
+          <span class="social-card__handle">La Comarca Meats</span>
+          <span class="social-card__cta"><span data-i18n="social.follow">Seguir</span> →</span>
+        </a>
+        <!-- TikTok: no hemos encontrado cuenta oficial. Si existe, duplica una tarjeta con su enlace. -->
+      </div>
+    </section>
+
     <!-- ============ CONTACTO ============ -->
     <section class="section contact" id="contacto">
       <div class="contact__grid">
@@ -419,10 +526,12 @@
     <div class="modal__backdrop"></div>
     <div class="modal__panel modal__panel--lang">
       <img class="modal__logo" src="https://lacomarcameats.com/wp-content/uploads/2020/04/logo-la-comarca-meats.png" alt="La Comarca Meats" onerror="this.remove()">
-      <h2 id="lang-title" class="modal__title">Elige tu idioma <em class="serif accent-text">· Choose your language</em></h2>
+      <h2 id="lang-title" class="modal__title">Elige tu idioma <em class="serif accent-text">Choose your language · 选择语言 · 言語を選択</em></h2>
       <div class="lang-options">
         <button type="button" class="lang-option" data-choose-lang="es"><span class="lang-option__code">ES</span><span>Español</span></button>
         <button type="button" class="lang-option" data-choose-lang="en"><span class="lang-option__code">EN</span><span>English</span></button>
+        <button type="button" class="lang-option" data-choose-lang="zh" lang="zh"><span class="lang-option__code">中文</span><span>简体中文</span></button>
+        <button type="button" class="lang-option" data-choose-lang="ja" lang="ja"><span class="lang-option__code">日本語</span><span>日本語</span></button>
       </div>
     </div>
   </div>

@@ -239,3 +239,143 @@ window.I18N = {
     'close': 'Close'
   }
 };
+
+/* ---- Nuevos textos: descripción de cada fase de la cadena, cerdo interactivo y partes ---- */
+Object.assign(window.I18N.es, {
+  'chain.d1': 'Partimos de líneas genéticas seleccionadas para obtener animales sanos, de crecimiento equilibrado y con una carne de calidad homogénea desde el origen.',
+  'chain.d2': 'Piensos formulados para cada etapa de crecimiento, con materias primas controladas que influyen directamente en la salud del animal y en la calidad final de la carne.',
+  'chain.d3': 'Cuidado de madres y lechones en sus primeras semanas, bajo control veterinario y criterios de bienestar animal.',
+  'chain.d4': 'Engorde con seguimiento sanitario, medidas de bioseguridad y registro de cada lote, para que la trazabilidad empiece en la propia granja.',
+  'chain.d5': 'Sacrificio en instalaciones de alta automatización, con inspección veterinaria y estrictos protocolos de seguridad alimentaria.',
+  'chain.d6': 'Despiece automatizado con capacidad para más de 25.000 cerdos a la semana. Cada pieza se categoriza y se prepara según las especificaciones del cliente.',
+  'chain.d7': 'Envasado y congelación que conservan la calidad del producto hasta su destino, tanto en el mercado nacional como internacional.',
+  'pig.hint': 'Pasa el cursor por el cerdo para descubrir cada pieza. Haz clic para ver sus fichas.',
+  'pig.hintTouch': 'Toca una parte del cerdo para descubrir sus fichas.',
+  'pig.see': 'Ver fichas',
+  'part.cabeza': 'Cabeza', 'part.paletas': 'Paletas', 'part.chuletero': 'Chuletero',
+  'part.panceta': 'Panceta', 'part.jamon': 'Jamón', 'part.otros': 'Otros'
+});
+Object.assign(window.I18N.en, {
+  'chain.d1': 'We start from selected genetic lines to obtain healthy animals with balanced growth and consistent meat quality right from the origin.',
+  'chain.d2': 'Feed formulated for each growth stage, with controlled raw materials that directly shape animal health and final meat quality.',
+  'chain.d3': 'Care of sows and piglets during their first weeks, under veterinary control and animal welfare criteria.',
+  'chain.d4': 'Fattening with health monitoring, biosecurity measures and records for every batch, so traceability starts on the farm itself.',
+  'chain.d5': 'Slaughter in highly automated facilities, with veterinary inspection and strict food safety protocols.',
+  'chain.d6': 'Automated cutting with capacity for more than 25,000 pigs a week. Every piece is categorised and prepared to each customer\'s specifications.',
+  'chain.d7': 'Packing and freezing that preserve product quality all the way to its destination, in national and international markets.',
+  'pig.hint': 'Move your cursor over the pig to discover each cut. Click to see its items.',
+  'pig.hintTouch': 'Tap a part of the pig to discover its items.',
+  'pig.see': 'See items',
+  'part.cabeza': 'Head', 'part.paletas': 'Shoulders', 'part.chuletero': 'Middle-loin',
+  'part.panceta': 'Middle-belly', 'part.jamon': 'Leg', 'part.otros': 'Others'
+});
+
+/* ---- 中文 (简体) ---- */
+window.I18N.zh = {
+  'nav.home': '首页', 'nav.about': '关于我们', 'nav.plant': '设施', 'nav.products': '产品', 'nav.quality': '质量', 'nav.figures': '数据', 'nav.contact': '联系我们',
+  'cta.contact': '联系我们',
+  'hero.eyebrow': '猪肉 · 西班牙穆尔西亚洛尔卡', 'hero.title': 'La Comarca Meats', 'hero.accent': '值得信赖的源头。',
+  'hero.lead': '传统与科技相结合，打造欧洲自动化程度最高的肉类企业之一。',
+  'hero.products': '查看产品', 'hero.catalog': '下载产品目录', 'hero.scroll': '向下滑动浏览', 'hero.skip': '跳过介绍',
+  'hero.scene2': '超过', 'hero.scene2b': '三十年', 'hero.scene2c': '的肉类行业经验。',
+  'trad.kicker': '西班牙品牌', 'trad.title': '传统、根源与', 'trad.accent': '西班牙品质。',
+  'trad.text': '三十多年的肉类行业经验，使我们能够将最好的传统与最先进的技术相结合。我们代表西班牙品牌，是全球肉类市场中品质与卓越的象征。',
+  'inno.kicker': '创新', 'inno.title': '看得见的', 'inno.accent': '科技。',
+  'inno.text': '通过全新的设施，我们在屠宰、分割、加工和包装猪肉方面投入最先进的技术、创新和自动化，为国内外市场提供每周超过25,000头猪的分割能力。',
+  'inno.stat': '每周分割生猪数量', 'inno.cta': '查看设施',
+  'chain.kicker': '价值链', 'chain.title': '全面掌控', 'chain.accent': '整条生产链。',
+  'chain.text': '我们参与猪肉生产链的每一个环节。对遗传、饲料、繁育、养殖场、屠宰、分割和冷冻的全面控制，使我们能够确保最终产品的食品安全、动物福利、可持续性和品质。',
+  'chain.s1': '遗传', 'chain.s2': '饲料', 'chain.s3': '繁育', 'chain.s4': '养殖场', 'chain.s5': '屠宰', 'chain.s6': '分割', 'chain.s7': '冷冻',
+  'chain.d1': '我们从精选的遗传品系出发，培育健康、生长均衡的生猪，从源头保证肉质稳定一致。',
+  'chain.d2': '针对每个生长阶段配制饲料，原料严格把控，直接影响动物健康和最终肉质。',
+  'chain.d3': '在兽医监控和动物福利标准下，照料母猪和仔猪度过最初几周。',
+  'chain.d4': '育肥过程配有健康监测、生物安全措施和逐批记录，让可追溯性从养殖场开始。',
+  'chain.d5': '在高度自动化的设施中屠宰，配有兽医检验和严格的食品安全规程。',
+  'chain.d6': '自动化分割，每周可处理超过25,000头猪。每个部位都经过分级，并按客户规格进行加工。',
+  'chain.d7': '包装与冷冻，确保产品品质直至送达国内外目的地。',
+  'qual.kicker': '质量', 'qual.title': '每个环节的', 'qual.accent': '品质。',
+  'qual.text': '我们通过控制生产链的每一个环节来把控产品质量，确保每个环节都达到最高品质。', 'qual.cta': '了解我们的做法',
+  'trace.kicker': '可追溯性', 'trace.title': '可追溯性', 'trace.accent': '技术。',
+  'trace.text': '工厂集成的先进技术与自动化系统可对肉类产品进行分级，时刻保障食品安全，并优化生产效率。',
+  'prod.kicker': '产品', 'prod.title': '产品目录，', 'prod.accent': '逐一呈现。',
+  'prod.text': '我们新鲜及冷冻猪肉产品目录中的全部64项产品，按部位分类。',
+  'prod.refs': '项目录产品', 'prod.view': '查看产品', 'prod.all': '整只胴体', 'prod.fresh': '新鲜', 'prod.frozen': '冷冻',
+  'prod.pending': '请在产品目录中查看该部位的所有产品。', 'prod.download': '下载产品目录', 'prod.ask': '咨询信息',
+  'fig.kicker': '数据', 'fig.title': '我们的肉类产业', 'fig.accent': '数据一览。',
+  'fig.1': '名员工', 'fig.2': '百万欧元 2023年营业额', 'fig.3': '平方米设施', 'fig.4': '头猪 / 每周',
+  'cat.kicker': '产品目录', 'cat.title': '下载我们的', 'cat.accent': '最新产品目录。',
+  'cat.text': '探索丰富的产品系列，涵盖最优质的新鲜猪肉和冷冻猪肉产品。', 'cat.cta': '下载PDF',
+  'intl.kicker': '国际', 'intl.title': '国际认证的', 'intl.accent': '安全保障。',
+  'intl.text': '凭借严格的质量、安全和产品管控，La Comarca Meats 通过中国、日本等第三国的认证资质开展国际业务。',
+  'contact.kicker': '联系我们', 'contact.title': '一起来谈谈', 'contact.accent': '您的下一笔订单。',
+  'contact.text': '您可以通过我们的任何一个基地、电话或在线表单与我们联系。',
+  'contact.form': '联系表单', 'contact.address': '地址', 'contact.phone': '电话',
+  'foot.links': '实用链接', 'foot.rrhh': 'LCFG 人力资源', 'foot.ethics': '道德举报渠道', 'foot.policy': '质量、环境与食品安全政策',
+  'foot.equality': '平等计划', 'foot.harass': '反骚扰计划', 'foot.infosec': '信息安全政策', 'foot.seals': '质量认证',
+  'foot.eu': '自用光伏太阳能装置。欧盟欧洲区域发展基金联合资助项目。',
+  'foot.legal': '法律声明', 'foot.privacy': '隐私政策', 'foot.cookies': 'Cookies', 'foot.rights': '版权所有。',
+  'lang.title': '选择语言', 'lang.text': 'Choose your language',
+  'hook.kicker': '聊一聊？', 'hook.title': '告诉我们您的需求', 'hook.accent': '我们将为您准备方案。',
+  'hook.text': '我们的销售团队处理国内外新鲜及冷冻猪肉订单。',
+  'hook.call': '立即致电', 'hook.form': '给我们留言', 'hook.later': '以后再说', 'close': '关闭',
+  'pig.hint': '将光标移到猪身上，了解每个部位。点击查看相关产品。', 'pig.hintTouch': '点击猪的某个部位，查看相关产品。', 'pig.see': '查看产品',
+  'part.cabeza': '头部', 'part.paletas': '前腿', 'part.chuletero': '大排', 'part.panceta': '五花', 'part.jamon': '后腿', 'part.otros': '其他'
+};
+
+/* ---- 日本語 ---- */
+window.I18N.ja = {
+  'nav.home': 'ホーム', 'nav.about': '会社概要', 'nav.plant': '施設', 'nav.products': '製品', 'nav.quality': '品質', 'nav.figures': '数字で見る', 'nav.contact': 'お問い合わせ',
+  'cta.contact': 'お問い合わせ',
+  'hero.eyebrow': '豚肉 · スペイン ムルシア州ロルカ', 'hero.title': 'La Comarca Meats', 'hero.accent': '信頼できる原産地。',
+  'hero.lead': '伝統とテクノロジーの融合。ヨーロッパで最も自動化が進んだ食肉企業のひとつです。',
+  'hero.products': '製品を見る', 'hero.catalog': 'カタログをダウンロード', 'hero.scroll': 'スクロールしてご覧ください', 'hero.skip': 'イントロをスキップ',
+  'hero.scene2': '', 'hero.scene2b': '30年以上', 'hero.scene2c': 'の食肉づくりの経験。',
+  'trad.kicker': 'スペインブランド', 'trad.title': '伝統、ルーツ、そして', 'trad.accent': 'スペインの品質。',
+  'trad.text': '30年以上にわたる食肉業界での実績により、最高の伝統と最先端の技術を融合させています。私たちはマルカ・エスパーニャ（スペインブランド）として、世界の食肉市場で品質と卓越性の代名詞となっています。',
+  'inno.kicker': 'イノベーション', 'inno.title': '実感できる', 'inno.accent': 'テクノロジー。',
+  'inno.text': '新しい施設を通じて、豚肉のと畜、カット、加工、包装において最先端の技術、イノベーション、自動化に取り組み、国内外の市場に週25,000頭以上のカット能力を提供しています。',
+  'inno.stat': '週あたりのカット頭数', 'inno.cta': '施設を見る',
+  'chain.kicker': 'バリューチェーン', 'chain.title': '生産チェーンの', 'chain.accent': '一貫管理。',
+  'chain.text': '豚肉の生産チェーンに関わるすべての工程に取り組んでいます。遺伝、飼料、繁殖、農場、と畜、カット、冷凍までを一貫して管理することで、最終製品の食品安全、アニマルウェルフェア、持続可能性、品質を保証しています。',
+  'chain.s1': '遺伝', 'chain.s2': '飼料', 'chain.s3': '繁殖', 'chain.s4': '農場', 'chain.s5': 'と畜', 'chain.s6': 'カット', 'chain.s7': '冷凍',
+  'chain.d1': '厳選された遺伝系統から始め、健康でバランスよく成長し、原産地から品質の安定した肉を持つ豚を育てます。',
+  'chain.d2': '成長段階ごとに設計された飼料。管理された原料が、豚の健康と最終的な肉質を直接左右します。',
+  'chain.d3': '獣医の管理とアニマルウェルフェアの基準のもと、母豚と子豚を最初の数週間ケアします。',
+  'chain.d4': '健康管理、バイオセキュリティ対策、ロットごとの記録を行い、トレーサビリティは農場から始まります。',
+  'chain.d5': '高度に自動化された施設でのと畜。獣医による検査と厳格な食品安全プロトコルを実施しています。',
+  'chain.d6': '週25,000頭以上を処理できる自動カットライン。各部位を格付けし、お客様の仕様に合わせて加工します。',
+  'chain.d7': '包装と冷凍により、国内外の目的地まで製品の品質を保ちます。',
+  'qual.kicker': '品質', 'qual.title': 'すべての工程に', 'qual.accent': '品質を。',
+  'qual.text': '生産チェーンの各工程を管理することで製品の品質を管理し、すべての工程で最高の品質を保証しています。', 'qual.cta': '私たちの取り組み',
+  'trace.kicker': 'トレーサビリティ', 'trace.title': 'トレーサビリティの', 'trace.accent': 'テクノロジー。',
+  'trace.text': '工場に統合された最先端の技術と自動化により、食肉製品を格付けし、常に食品安全を保証しながら生産効率を最適化しています。',
+  'prod.kicker': '製品', 'prod.title': 'カタログから、', 'prod.accent': '部位ごとに。',
+  'prod.text': '生鮮・冷凍豚肉カタログの全64品目を、部位別にご紹介します。',
+  'prod.refs': '品目', 'prod.view': '詳細を見る', 'prod.all': '枝肉全体', 'prod.fresh': '生鮮', 'prod.frozen': '冷凍',
+  'prod.pending': 'この部位のすべての品目はカタログでご確認ください。', 'prod.download': 'カタログをダウンロード', 'prod.ask': 'お問い合わせ',
+  'fig.kicker': '数字で見る', 'fig.title': '数字で見る', 'fig.accent': '私たちの食肉事業。',
+  'fig.1': '名の従業員', 'fig.2': '百万ユーロ（2023年売上高）', 'fig.3': '㎡の施設', 'fig.4': '頭 / 週',
+  'cat.kicker': 'カタログ', 'cat.title': '最新カタログを', 'cat.accent': 'ダウンロード。',
+  'cat.text': '最高品質の生鮮豚肉・冷凍豚肉製品を幅広く取り揃えています。', 'cat.cta': 'PDFをダウンロード',
+  'intl.kicker': '国際', 'intl.title': '国際的に認証された', 'intl.accent': '安全性。',
+  'intl.text': '厳格な品質・安全・製品管理により、La Comarca Meatsは中国や日本などの第三国で認証を取得し、国際的に事業を展開しています。',
+  'contact.kicker': 'お問い合わせ', 'contact.title': '次のご注文について', 'contact.accent': 'ご相談ください。',
+  'contact.text': '各拠点、お電話、またはオンラインフォームからお問い合わせください。',
+  'contact.form': 'お問い合わせフォーム', 'contact.address': '所在地', 'contact.phone': '電話',
+  'foot.links': 'リンク', 'foot.rrhh': 'LCFG 人事', 'foot.ethics': '倫理・内部通報窓口', 'foot.policy': '品質・環境・食品安全方針',
+  'foot.equality': '平等計画', 'foot.harass': 'ハラスメント防止計画', 'foot.infosec': '情報セキュリティ方針', 'foot.seals': '品質認証',
+  'foot.eu': '自家消費用太陽光発電設備。欧州連合・欧州地域開発基金の共同出資プロジェクト。',
+  'foot.legal': '法的通知', 'foot.privacy': 'プライバシーポリシー', 'foot.cookies': 'Cookie', 'foot.rights': '無断転載を禁じます。',
+  'lang.title': '言語を選択', 'lang.text': 'Choose your language',
+  'hook.kicker': 'ご相談ください', 'hook.title': 'ご要望をお聞かせください', 'hook.accent': 'ご提案をご用意します。',
+  'hook.text': '営業チームが国内外の生鮮・冷凍豚肉のご注文に対応いたします。',
+  'hook.call': '電話する', 'hook.form': 'メッセージを送る', 'hook.later': 'あとで', 'close': '閉じる',
+  'pig.hint': 'カーソルを豚に合わせて各部位をご覧ください。クリックすると品目が表示されます。', 'pig.hintTouch': '豚の部位をタップして品目をご覧ください。', 'pig.see': '品目を見る',
+  'part.cabeza': '頭部', 'part.paletas': 'ウデ', 'part.chuletero': 'ロース', 'part.panceta': 'バラ', 'part.jamon': 'モモ', 'part.otros': 'その他'
+};
+
+/* ---- Redes sociales ---- */
+Object.assign(window.I18N.es, { 'nav.social': 'Redes', 'social.kicker': 'Redes sociales', 'social.title': 'Síguenos en', 'social.accent': 'redes.', 'social.text': 'Sigue el día a día de La Comarca Meats: la planta, el equipo y nuestra presencia en mercados internacionales.', 'social.follow': 'Seguir', 'pig.others': 'Ver toda la canal y otros' });
+Object.assign(window.I18N.en, { 'nav.social': 'Social', 'social.kicker': 'Social media', 'social.title': 'Follow us on', 'social.accent': 'social media.', 'social.text': 'Follow La Comarca Meats day to day: the plant, the team and our presence in international markets.', 'social.follow': 'Follow', 'pig.others': 'See whole carcass & others' });
+Object.assign(window.I18N.zh, { 'nav.social': '社交媒体', 'social.kicker': '社交媒体', 'social.title': '关注我们的', 'social.accent': '社交媒体。', 'social.text': '关注 La Comarca Meats 的日常：工厂、团队以及我们在国际市场的动态。', 'social.follow': '关注', 'pig.others': '查看整只胴体及其他' });
+Object.assign(window.I18N.ja, { 'nav.social': 'SNS', 'social.kicker': 'SNS', 'social.title': 'SNSで', 'social.accent': 'フォローする。', 'social.text': 'La Comarca Meatsの日々をお届けします。工場、チーム、そして海外市場での取り組み。', 'social.follow': 'フォロー', 'pig.others': '枝肉全体・その他を見る' });

@@ -16,18 +16,24 @@
 
   /* ------------------------------------------------------------------ i18n */
   var LANG_KEY = 'lcm_lang';
+  var LANGS = ['es', 'en', 'zh', 'ja'];
+  var LOCALE = { es: 'es-ES', en: 'en-GB', zh: 'zh-CN', ja: 'ja-JP' };
+  var TITLES = { es: 'Origen de confianza', en: 'A trusted origin', zh: '值得信赖的源头', ja: '信頼できる原産地' };
   var lang = localStorage.getItem(LANG_KEY) || 'es';
   var T = function (k) { return (I18N[lang] && I18N[lang][k]) || I18N.es[k] || ''; };
 
   function applyLang(l) {
-    lang = l === 'en' ? 'en' : 'es';
+    lang = LANGS.indexOf(l) > -1 ? l : 'es';
     localStorage.setItem(LANG_KEY, lang);
     document.documentElement.lang = lang;
     $$('[data-i18n]').forEach(function (el) { var v = T(el.dataset.i18n); if (v) el.textContent = v; });
     $$('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', T(el.dataset.i18nAria)); });
     $$('[data-set-lang]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.setLang === lang)); });
-    document.title = lang === 'en' ? 'La Comarca Meats | A trusted origin' : 'La Comarca Meats | Origen de confianza';
+    document.title = 'La Comarca Meats | ' + TITLES[lang];
     renderProductTexts();
+    renderExplorerTexts();
+    renderChainDetail(true);
+    $$('[data-count]').forEach(function (el) { if (el._fmt) el.textContent = el._fmt(+el.dataset.count); });
     ScrollTrigger.refresh();
   }
 
@@ -55,26 +61,19 @@
     header.classList.toggle('is-solid', y > window.innerHeight * 0.6);
     var hide = y > lastY && y > window.innerHeight && !document.body.classList.contains('nav-open');
     header.classList.toggle('is-hidden', hide);
+    document.documentElement.classList.toggle('hdr-hidden', hide);
     lastY = y;
   }
   window.addEventListener('scroll', onScrollHeader, { passive: true });
   onScrollHeader();
 
-  var burger = $('[data-burger]'), nav = $('[data-nav]');
-  burger.addEventListener('click', function () {
-    var open = burger.getAttribute('aria-expanded') !== 'true';
-    burger.setAttribute('aria-expanded', String(open));
-    nav.classList.toggle('is-open', open);
-    document.body.classList.toggle('nav-open', open);
-    header.classList.add('is-solid');
-  });
+  var nav = $('[data-nav]');
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href^="#"]');
     if (!a) return;
     var id = a.getAttribute('href');
     if (id.length < 2 || !$(id)) return;
     e.preventDefault();
-    nav.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); document.body.classList.remove('nav-open');
     scrollToEl(id, id === '#inicio' ? 0 : undefined);
   });
   $$('[data-set-lang]').forEach(function (b) { b.addEventListener('click', function () { applyLang(b.dataset.setLang); }); });
@@ -180,13 +179,25 @@
   /* --------------------------------------------------- value chain (pin) */
   var chain = $('[data-chain]');
   var steps = $$('[data-chain-step]', chain);
-  function setSteps(p) {
-    var n = Math.min(steps.length, Math.floor(p * (steps.length + 0.6)));
-    steps.forEach(function (s, i) { s.classList.toggle('is-on', i < n); });
+  var chainCur = -1;
+  var detail = $('[data-chain-detail]');
+  function renderChainDetail(force) {
+    if (chainCur < 0 || !detail) return;
+    var i = chainCur + 1;
+    $('[data-chain-detail-n]').textContent = (i < 10 ? '0' : '') + i;
+    $('[data-chain-detail-title]').textContent = T('chain.s' + i);
+    $('[data-chain-detail-text]').textContent = T('chain.d' + i);
+    if (!force && M && !reduce) M.animate($('div', detail), { opacity: [0, 1], transform: ['translateY(10px)', 'translateY(0)'] }, { duration: 0.42, ease: EASE });
   }
+  function setSteps(p) {
+    var n = Math.max(1, Math.min(steps.length, Math.floor(p * steps.length) + 1));
+    steps.forEach(function (s, i) { s.classList.toggle('is-on', i < n); s.classList.toggle('is-current', i === n - 1); });
+    if (n - 1 !== chainCur) { chainCur = n - 1; renderChainDetail(); }
+  }
+  setSteps(0);
   mm.add('(min-width: 861px) and (prefers-reduced-motion: no-preference)', function () {
     gsap.to('[data-chain-progress]', { scaleX: 1, ease: 'none',
-      scrollTrigger: { trigger: chain, start: 'top top', end: '+=140%', pin: true, scrub: 0.5, onUpdate: function (st) { setSteps(st.progress); } } });
+      scrollTrigger: { trigger: chain, start: 'top top', end: '+=280%', pin: true, scrub: 0.5, onUpdate: function (st) { setSteps(st.progress); } } });
   });
   mm.add('(max-width: 860px), (prefers-reduced-motion: reduce)', function () {
     gsap.to('[data-chain-progress]', { scaleY: 1, scaleX: 1, ease: 'none',
@@ -208,7 +219,7 @@
   /* ------------------------------------------------------- counters */
   $$('[data-count]').forEach(function (el) {
     var end = +el.dataset.count, pre = el.dataset.prefix || '';
-    var fmt = function (v) { return pre + Math.round(v).toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES'); };
+    var fmt = el._fmt = function (v) { return pre + Math.round(v).toLocaleString(LOCALE[lang]); };
     el.textContent = fmt(end);
     if (reduce) return;
     var o = { v: 0 };
@@ -251,10 +262,11 @@
   }).join('');
   chips.innerHTML = parts.map(function (part) { return '<button type="button" data-chip="' + part.zone + '"></button>'; }).join('');
 
-  function partName(part) { return lang === 'en' ? part.en : part.es; }
-  function partAlt(part) { return lang === 'en' ? part.es : part.en; }
-  function names(p) { return lang === 'en' ? p.en : p.es; }
-  function altNames(p) { return lang === 'en' ? p.es : p.en; }
+  // Product names exist in ES/EN (catalogue). Chinese/Japanese show the English trade name + Spanish.
+  function partName(part) { return T('part.' + part.zone) || part.es; }
+  function partAlt(part) { return lang === 'es' ? part.en : part.es; }
+  function names(p) { return lang === 'es' ? p.es : p.en; }
+  function altNames(p) { return lang === 'es' ? p.en : p.es; }
 
   function renderProductTexts() {
     if (!list) return;
@@ -330,6 +342,65 @@
     $('[data-pm-alt]', m).textContent = altNames(p).join(' · ');
     openModal(m, c);
   });
+
+  /* ============================================ BIG PIG EXPLORER */
+  var big = $('[data-bigpig]');
+  var cuts = $$('.cut', big);
+  var exCard = $('[data-explorer-card]'), exHint = $('[data-explorer-hint]');
+  var canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var exZone = null;
+  function partBy(zone) { return parts.filter(function (p) { return p.zone === zone; })[0]; }
+  function renderExplorerTexts() {
+    if (!big) return;
+    exHint.textContent = T(canHover ? 'pig.hint' : 'pig.hintTouch');
+    $('[data-explorer-go]').textContent = T('pig.see') + ' →';
+    $('[data-cut-others]').textContent = T('pig.others') + ' →';
+    cuts.forEach(function (c) { $('.cut__label', c).textContent = T('part.' + c.dataset.cut).toUpperCase(); });
+    if (exZone) showCut(exZone, true);
+  }
+  function popCut(c, on) {
+    var dx = on ? +c.dataset.dx : 0, dy = on ? +c.dataset.dy : 0;
+    if (reduce) { gsap.set(c, { x: dx * 0.4, y: dy * 0.4 }); return; }
+    gsap.to(c, { x: dx, y: dy, scale: on ? 1.03 : 1, transformOrigin: '50% 50%', duration: on ? 0.55 : 0.4, ease: on ? 'back.out(1.6)' : 'power3.out', overwrite: 'auto' });
+  }
+  function showCut(zone, silent) {
+    var part = partBy(zone); if (!part) return;
+    var changed = zone !== exZone;
+    exZone = zone;
+    big.classList.toggle('is-all', zone === 'otros');
+    cuts.forEach(function (c) { var on = c.dataset.cut === zone; c.classList.toggle('is-on', on); if (changed || silent) popCut(c, on || zone === 'otros'); });
+    exCard.hidden = false;
+    $('[data-explorer-count]').textContent = part.products.length + ' ' + T('prod.refs');
+    $('[data-explorer-name]').innerHTML = partName(part) + '<em>' + partAlt(part) + '</em>';
+    $('[data-explorer-thumbs]').innerHTML = part.products.slice(0, 3).map(function (p) { return '<img src="' + p.img + '" alt="" loading="lazy">'; }).join('');
+    if (changed && !silent && M && !reduce) M.animate(exCard, { opacity: [0, 1], transform: ['translateY(14px) scale(.98)', 'translateY(0) scale(1)'] }, { duration: 0.45, ease: EASE });
+  }
+  if (big) {
+    cuts.forEach(function (c) {
+      var z = c.dataset.cut;
+      c.setAttribute('aria-label', z);
+      if (canHover) c.addEventListener('pointerenter', function () { showCut(z); });
+      c.addEventListener('focus', function () { if (c.matches(':focus-visible')) showCut(z); });
+      c.addEventListener('click', function () {
+        if (!canHover && exZone !== z) { showCut(z); return; }   // first tap on touch: reveal
+        goZone(z);
+      });
+      c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goZone(z); } });
+    });
+    $('[data-explorer-go]').addEventListener('click', function () { if (exZone) goZone(exZone); });
+    var others = $('[data-cut-others]');
+    if (canHover) others.addEventListener('pointerenter', function () { showCut('otros'); });
+    others.addEventListener('click', function () { if (exZone === 'otros') goZone('otros'); else showCut('otros'); });
+    // entrance: the pig "comes apart" into its cuts, then settles
+    if (!reduce) {
+      ScrollTrigger.create({ trigger: big, start: 'top 70%', once: true, onEnter: function () {
+        var tl = gsap.timeline();
+        tl.to(cuts, { x: function (i, c) { return +c.dataset.dx * 1.4; }, y: function (i, c) { return +c.dataset.dy * 1.4; }, duration: 0.7, ease: 'expo.out', stagger: 0.06 })
+          .to(cuts, { x: 0, y: 0, duration: 0.8, ease: 'expo.inOut', stagger: 0.05 }, '+=0.25')
+          .add(function () { showCut(exZone || 'jamon', true); });
+      } });
+    } else { showCut('jamon', true); }
+  }
 
   /* ================================================================ MODALS */
   var openStack = [];
