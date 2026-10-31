@@ -48,9 +48,8 @@
     <!-- ============ HERO (recorrido con scroll) ============ -->
     <section class="hero" id="inicio" data-hero>
       <div class="hero__media" data-hero-media>
-        <!-- Video de la web original. Si existe video/hero.mp4 (recodificado para scroll con
-             scripts/encode-scrub.sh) se usa ese; si no, el de lacomarcameats.com. -->
-        <video data-scrub muted playsinline preload="auto"
+        <!-- Video de la web original. Si existe video/hero.mp4 se usa ese; si no, el de lacomarcameats.com. -->
+        <video muted loop playsinline autoplay preload="auto"
                poster="https://lacomarcameats.com/wp-content/uploads/2022/04/la-comarca-meats-instalaciones-05.jpg"
                data-src-local="video/hero.mp4"
                data-src-remote="https://lacomarcameats.com/wp-content/uploads/2020/07/video-home-la-comarca-meats-1.mp4"></video>
@@ -70,7 +69,7 @@
         </div>
       </div>
 
-      <div class="hero__scene hero__scene--2" data-hero-s2 aria-hidden="true">
+      <div class="hero__scene hero__scene--2" data-hero-s2 aria-hidden="true" hidden>
         <p class="display display--md">
           <span data-i18n="hero.scene2">Más de</span> <em class="serif accent-text" data-i18n="hero.scene2b">tres décadas</em><br>
           <span data-i18n="hero.scene2c">de oficio cárnico.</span>
@@ -115,7 +114,7 @@
     <!-- Video de planta: el marco se abre a pantalla completa con el scroll -->
     <section class="cinema" data-cinema aria-label="Planta La Comarca Meats">
       <div class="cinema__frame" data-cinema-frame>
-        <video autoplay muted loop playsinline preload="metadata"
+        <video muted loop playsinline preload="metadata" data-autoplay="lazy"
                poster="https://lacomarcameats.com/wp-content/uploads/2020/05/I-01.png"
                data-src-local="video/planta.mp4"
                data-src-remote="https://lacomarcameats.com/wp-content/uploads/2020/07/Video-La-Comarca-Meats-Home-3-1.mp4"></video>
@@ -279,14 +278,22 @@
           <div class="explorer__card" data-explorer-card hidden>
             <span class="explorer__count" data-explorer-count></span>
             <h3 class="explorer__name" data-explorer-name></h3>
-            <div class="explorer__thumbs" data-explorer-thumbs></div>
-            <button type="button" class="btn btn--accent btn--sm" data-explorer-go></button>
+            <ul class="explorer__items" data-explorer-items></ul>
           </div>
           <button type="button" class="explorer__others" data-cut-others></button>
         </div>
       </div>
 
-      <div class="products__stage" data-products-stage>
+      <div class="catbar" data-catbar>
+        <button type="button" class="catbar__toggle" aria-expanded="false" aria-controls="catalogo-completo" data-catalog-toggle>
+          <span data-i18n="cat.full">Catálogo completo</span>
+          <span class="catbar__count">64</span>
+          <span class="catbar__icon" aria-hidden="true"></span>
+        </button>
+        <a class="btn btn--ghost catbar__dl" href="https://lacomarcameats.com/catalogo_lacomarca_esp_eng.pdf" target="_blank" rel="noopener"><span data-i18n="prod.download">Descargar catálogo</span> ↓</a>
+      </div>
+
+      <div class="products__stage" id="catalogo-completo" data-products-stage hidden>
         <aside class="products__aside">
           <div class="products__sticky">
             <svg class="pig" id="pig" viewBox="0 0 640 360" role="img" aria-label="Despiece del cerdo">

@@ -3,7 +3,7 @@
 Web en HTML estático. Copia los contenidos de lacomarcameats.com y añade animación.
 
 - **Scroll suave:** Lenis.
-- **Animaciones con scroll:** GSAP + ScrollTrigger.
+- **Animaciones con scroll:** GSAP + ScrollTrigger (sin bloqueos en portada ni en el video de planta).
 - **Pop-ups y microinteracciones:** Motion.
 - **Productos:** sacados del catálogo oficial (64 fichas, `js/products.js` + `img/productos/`), ordenados por partes del cerdo.
 

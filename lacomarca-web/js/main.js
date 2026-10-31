@@ -32,6 +32,7 @@
     document.title = 'La Comarca Meats | ' + TITLES[lang];
     renderProductTexts();
     renderExplorerTexts();
+    var ct = $('[data-catalog-toggle]'); if (ct) $('span', ct).textContent = T(ct.getAttribute('aria-expanded') === 'true' ? 'cat.hide' : 'cat.full');
     renderChainDetail(true);
     $$('[data-count]').forEach(function (el) { if (el._fmt) el.textContent = el._fmt(+el.dataset.count); });
     ScrollTrigger.refresh();
@@ -79,60 +80,31 @@
   $$('[data-set-lang]').forEach(function (b) { b.addEventListener('click', function () { applyLang(b.dataset.setLang); }); });
 
   /* ------------------------------------------------------- video sources */
-  // Local re-encoded clip first (video/*.mp4, dense keyframes for scrubbing), remote original as fallback.
-  // Scrub clips are loaded whole as a blob so seeking works on any host (no HTTP range support needed).
-  function setRemote(v) { if (v.dataset.srcRemote) { v.src = v.dataset.srcRemote; v.load(); } }
+  // Local copy first (video/*.mp4) if it exists, otherwise the original from lacomarcameats.com.
+  // Both clips simply play in a loop: no scroll-locking, nothing to wait for.
+  function setSrc(v, src) { v.src = src; v.load(); if (v.dataset.autoplay !== 'lazy') v.play().catch(function () {}); }
   $$('video[data-src-remote]').forEach(function (v) {
-    var local = v.dataset.srcLocal;
-    if (!local || location.protocol === 'file:') { setRemote(v); return; }
-    if (v.hasAttribute('data-scrub')) {
-      fetch(local).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
-        .then(function (blob) { v.src = URL.createObjectURL(blob); v.load(); })
-        .catch(function () { setRemote(v); });
-    } else {
-      fetch(local, { method: 'HEAD' }).then(function (r) { if (!r.ok) throw 0; v.src = local; v.load(); })
-        .catch(function () { setRemote(v); });
-    }
+    var local = v.dataset.srcLocal, remote = v.dataset.srcRemote;
+    if (!local || location.protocol === 'file:') { setSrc(v, remote); return; }
+    fetch(local, { method: 'HEAD' }).then(function (r) { if (!r.ok) throw 0; setSrc(v, local); })
+      .catch(function () { setSrc(v, remote); });
   });
 
-  /* ------------------------------------------------------- hero (scrub) */
+  /* ------------------------------------------------------- hero */
   var hero = $('[data-hero]');
-  var heroVideo = $('video[data-scrub]', hero);
-  var playhead = { target: 0, cur: 0 };
-
-  if (reduce) {
-    heroVideo.loop = true; heroVideo.autoplay = true; heroVideo.play().catch(function () {});
-  } else {
-    // prime decoder (iOS needs a play() before seeking shows frames)
-    var prime = function () { heroVideo.play().then(function () { heroVideo.pause(); }).catch(function () {}); };
-    heroVideo.addEventListener('loadedmetadata', prime, { once: true });
-    window.addEventListener('touchstart', prime, { once: true, passive: true });
-
-    // smoothed playhead: scroll writes a target, rAF walks toward it (scroll-craft pattern)
-    gsap.ticker.add(function () {
-      var d = heroVideo.duration;
-      if (!d || isNaN(d)) return;
-      var tgt = playhead.target * (d - 0.05);
-      playhead.cur += (tgt - playhead.cur) * 0.18;
-      if (Math.abs(playhead.cur - heroVideo.currentTime) > 1 / 30 && !heroVideo.seeking && heroVideo.readyState >= 1) {
-        heroVideo.currentTime = playhead.cur;
-      }
-    });
-
-    var heroTl = gsap.timeline({
-      defaults: { ease: 'none' },
-      scrollTrigger: {
-        trigger: hero, start: 'top top', end: '+=170%', pin: true, scrub: 0.6,
-        onUpdate: function (st) { playhead.target = st.progress; }
-      }
-    });
-    heroTl
-      .to('[data-hero-media]', { scale: 1.08, duration: 1 }, 0)
-      .to('[data-hero-progress]', { scaleX: 1, duration: 1 }, 0)
-      .to('[data-hero-s1]', { yPercent: -18, autoAlpha: 0, duration: 0.3, ease: 'power2.in' }, 0.12)
-      .fromTo('[data-hero-s2]', { yPercent: 24, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.3, ease: 'power2.out' }, 0.46)
-      .to('[data-hero-s2]', { autoAlpha: 0, yPercent: -12, duration: 0.2, ease: 'power2.in' }, 0.86);
+  var heroVideo = $('video', hero);
+  if (!reduce) {
+    // no pin: the hero scrolls away normally; video drifts and copy lifts as it leaves
+    gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } })
+      .to('[data-hero-media]', { yPercent: 18, scale: 1.06 }, 0)
+      .to('[data-hero-s1]', { yPercent: -30, autoAlpha: 0 }, 0)
+      .to('.hero__foot', { autoAlpha: 0 }, 0)
+      .to('[data-hero-progress]', { scaleX: 1 }, 0);
   }
+  // pause video when hero is off screen (saves battery on phones)
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) heroVideo.play().catch(function () {}); else heroVideo.pause(); });
+  }).observe(hero);
 
   // hero intro (on load)
   if (!reduce) {
@@ -163,16 +135,18 @@
   /* --------------------------------------------- cinema (frame opens up) */
   var cinema = $('[data-cinema]');
   var cinemaVideo = $('video', cinema);
+  // start buffering well before it is on screen so it is already playing when you arrive
   new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) cinemaVideo.play().catch(function () {}); else cinemaVideo.pause(); });
-  }, { threshold: 0.15 }).observe(cinema);
+    es.forEach(function (e) { if (e.isIntersecting) { cinemaVideo.preload = 'auto'; cinemaVideo.play().catch(function () {}); } else cinemaVideo.pause(); });
+  }, { rootMargin: '150% 0px 150% 0px' }).observe(cinema);
 
   var mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', function () {
-    gsap.timeline({ scrollTrigger: { trigger: cinema, start: 'top top', end: '+=120%', pin: true, scrub: 0.6 } })
-      .to('[data-cinema-frame]', { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.inOut', duration: 1 }, 0)
-      .to('[data-cinema-frame] video', { scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
-      .to('[data-cinema-caption]', { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0.7);
+    // no pin: the frame opens while the section scrolls into view, fully open when it reaches the top
+    gsap.timeline({ scrollTrigger: { trigger: cinema, start: 'top 90%', end: 'top 10%', scrub: 0.4 } })
+      .to('[data-cinema-frame]', { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power1.out', duration: 1 }, 0)
+      .to('[data-cinema-frame] video', { scale: 1, ease: 'power1.out', duration: 1 }, 0)
+      .to('[data-cinema-caption]', { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 0.65);
     gsap.set('[data-cinema-caption]', { y: 20 });
   });
 
@@ -197,7 +171,7 @@
   setSteps(0);
   mm.add('(min-width: 861px) and (prefers-reduced-motion: no-preference)', function () {
     gsap.to('[data-chain-progress]', { scaleX: 1, ease: 'none',
-      scrollTrigger: { trigger: chain, start: 'top top', end: '+=280%', pin: true, scrub: 0.5, onUpdate: function (st) { setSteps(st.progress); } } });
+      scrollTrigger: { trigger: chain, start: 'top top', end: '+=200%', pin: true, scrub: 0.5, onUpdate: function (st) { setSteps(st.progress); } } });
   });
   mm.add('(max-width: 860px), (prefers-reduced-motion: reduce)', function () {
     gsap.to('[data-chain-progress]', { scaleY: 1, scaleX: 1, ease: 'none',
@@ -331,76 +305,115 @@
   }
 
   // product sheet
-  list.addEventListener('click', function (e) {
-    var c = e.target.closest('.pcard'); if (!c) return;
-    var part = parts[+c.dataset.part], p = part.products[+c.dataset.item];
+  function openProduct(pi, i, opener) {
+    var part = parts[pi], p = part.products[i];
     var m = $('#product-modal');
     $('[data-pm-img]', m).src = p.img;
     $('[data-pm-img]', m).alt = names(p).join(', ');
     $('[data-pm-part]', m).textContent = partName(part);
     $('[data-pm-title]', m).innerHTML = names(p).join('<br>');
     $('[data-pm-alt]', m).textContent = altNames(p).join(' · ');
-    openModal(m, c);
+    openModal(m, opener);
+  }
+  list.addEventListener('click', function (e) {
+    var c = e.target.closest('.pcard'); if (!c) return;
+    openProduct(+c.dataset.part, +c.dataset.item, c);
   });
 
   /* ============================================ BIG PIG EXPLORER */
+  // The pig comes apart into its cuts as it scrolls into view (exploded butcher chart).
+  // Hover / tap a cut: it pops further out and the card lists its products right there.
   var big = $('[data-bigpig]');
   var cuts = $$('.cut', big);
   var exCard = $('[data-explorer-card]'), exHint = $('[data-explorer-hint]');
   var canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
   var exZone = null;
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  // inner wrapper: outer <g> carries the scroll "spread", inner <g> the hover pop
+  cuts.forEach(function (c) {
+    var inner = document.createElementNS(SVGNS, 'g'); inner.setAttribute('class', 'cut__in');
+    while (c.firstChild) inner.appendChild(c.firstChild);
+    c.appendChild(inner); c._in = inner;
+  });
   function partBy(zone) { return parts.filter(function (p) { return p.zone === zone; })[0]; }
+  function partIndex(zone) { for (var i = 0; i < parts.length; i++) if (parts[i].zone === zone) return i; return -1; }
   function renderExplorerTexts() {
     if (!big) return;
     exHint.textContent = T(canHover ? 'pig.hint' : 'pig.hintTouch');
-    $('[data-explorer-go]').textContent = T('pig.see') + ' →';
     $('[data-cut-others]').textContent = T('pig.others') + ' →';
-    cuts.forEach(function (c) { $('.cut__label', c).textContent = T('part.' + c.dataset.cut).toUpperCase(); });
+    cuts.forEach(function (c) {
+      $('.cut__label', c).textContent = T('part.' + c.dataset.cut).toUpperCase();
+      c.setAttribute('aria-label', T('part.' + c.dataset.cut));
+    });
     if (exZone) showCut(exZone, true);
   }
   function popCut(c, on) {
-    var dx = on ? +c.dataset.dx : 0, dy = on ? +c.dataset.dy : 0;
-    if (reduce) { gsap.set(c, { x: dx * 0.4, y: dy * 0.4 }); return; }
-    gsap.to(c, { x: dx, y: dy, scale: on ? 1.03 : 1, transformOrigin: '50% 50%', duration: on ? 0.55 : 0.4, ease: on ? 'back.out(1.6)' : 'power3.out', overwrite: 'auto' });
+    var k = on ? 0.9 : 0;
+    var vars = { x: +c.dataset.dx * k, y: +c.dataset.dy * k, scale: on ? 1.04 : 1, transformOrigin: '50% 50%' };
+    if (reduce) { gsap.set(c._in, vars); return; }
+    vars.duration = on ? 0.55 : 0.4; vars.ease = on ? 'back.out(1.7)' : 'power3.out'; vars.overwrite = 'auto';
+    gsap.to(c._in, vars);
   }
   function showCut(zone, silent) {
     var part = partBy(zone); if (!part) return;
-    var changed = zone !== exZone;
+    var changed = zone !== exZone, pi = partIndex(zone);
     exZone = zone;
     big.classList.toggle('is-all', zone === 'otros');
-    cuts.forEach(function (c) { var on = c.dataset.cut === zone; c.classList.toggle('is-on', on); if (changed || silent) popCut(c, on || zone === 'otros'); });
+    cuts.forEach(function (c) { var on = c.dataset.cut === zone || zone === 'otros'; c.classList.toggle('is-on', on); if (changed || silent) popCut(c, on && zone !== 'otros'); });
     exCard.hidden = false;
     $('[data-explorer-count]').textContent = part.products.length + ' ' + T('prod.refs');
     $('[data-explorer-name]').innerHTML = partName(part) + '<em>' + partAlt(part) + '</em>';
-    $('[data-explorer-thumbs]').innerHTML = part.products.slice(0, 3).map(function (p) { return '<img src="' + p.img + '" alt="" loading="lazy">'; }).join('');
-    if (changed && !silent && M && !reduce) M.animate(exCard, { opacity: [0, 1], transform: ['translateY(14px) scale(.98)', 'translateY(0) scale(1)'] }, { duration: 0.45, ease: EASE });
+    $('[data-explorer-items]').innerHTML = part.products.map(function (p, i) {
+      return '<li><button type="button" class="exitem" data-part="' + pi + '" data-item="' + i + '">' +
+        '<img src="' + p.img + '" alt="" loading="lazy"><span><strong>' + names(p).join(' · ') + '</strong><small>' + altNames(p).join(' · ') + '</small></span></button></li>';
+    }).join('');
+    $('[data-explorer-items]').scrollTop = 0;
+    if (changed && !silent && M && !reduce) {
+      M.animate(exCard, { opacity: [0.4, 1], transform: ['translateY(10px)', 'translateY(0)'] }, { duration: 0.4, ease: EASE });
+      M.animate($$('.exitem', exCard).slice(0, 6), { opacity: [0, 1], transform: ['translateX(-8px)', 'translateX(0)'] }, { duration: 0.35, ease: EASE, delay: M.stagger ? M.stagger(0.035) : 0 });
+    }
   }
   if (big) {
     cuts.forEach(function (c) {
       var z = c.dataset.cut;
-      c.setAttribute('aria-label', z);
       if (canHover) c.addEventListener('pointerenter', function () { showCut(z); });
       c.addEventListener('focus', function () { if (c.matches(':focus-visible')) showCut(z); });
-      c.addEventListener('click', function () {
-        if (!canHover && exZone !== z) { showCut(z); return; }   // first tap on touch: reveal
-        goZone(z);
-      });
-      c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goZone(z); } });
+      c.addEventListener('click', function () { showCut(z); });
+      c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showCut(z); } });
     });
-    $('[data-explorer-go]').addEventListener('click', function () { if (exZone) goZone(exZone); });
     var others = $('[data-cut-others]');
-    if (canHover) others.addEventListener('pointerenter', function () { showCut('otros'); });
-    others.addEventListener('click', function () { if (exZone === 'otros') goZone('otros'); else showCut('otros'); });
-    // entrance: the pig "comes apart" into its cuts, then settles
+    others.addEventListener('click', function () { showCut('otros'); });
+    exCard.addEventListener('click', function (e) { var b = e.target.closest('.exitem'); if (b) openProduct(+b.dataset.part, +b.dataset.item, b); });
+    // scroll-linked spread: the pig unfolds into its cuts as it enters the screen
     if (!reduce) {
-      ScrollTrigger.create({ trigger: big, start: 'top 70%', once: true, onEnter: function () {
-        var tl = gsap.timeline();
-        tl.to(cuts, { x: function (i, c) { return +c.dataset.dx * 1.4; }, y: function (i, c) { return +c.dataset.dy * 1.4; }, duration: 0.7, ease: 'expo.out', stagger: 0.06 })
-          .to(cuts, { x: 0, y: 0, duration: 0.8, ease: 'expo.inOut', stagger: 0.05 }, '+=0.25')
-          .add(function () { showCut(exZone || 'jamon', true); });
-      } });
-    } else { showCut('jamon', true); }
+      gsap.timeline({ scrollTrigger: { trigger: big, start: 'top 85%', end: 'center 55%', scrub: 0.5 } })
+        .fromTo(cuts, { x: 0, y: 0 }, { x: function (i, c) { return +c.dataset.dx * 0.8; }, y: function (i, c) { return +c.dataset.dy * 0.8; }, ease: 'power2.out', stagger: 0.04 });
+      ScrollTrigger.create({ trigger: big, start: 'center 60%', once: true, onEnter: function () { if (!exZone) showCut('jamon'); } });
+    } else {
+      cuts.forEach(function (c) { gsap.set(c, { x: +c.dataset.dx * 0.6, y: +c.dataset.dy * 0.6 }); });
+      showCut('jamon', true);
+    }
   }
+
+  /* ------------------------------------------------ full catalogue toggle */
+  var catToggle = $('[data-catalog-toggle]'), stage = $('[data-products-stage]');
+  function setCatalog(open) {
+    catToggle.setAttribute('aria-expanded', String(open));
+    $('span', catToggle).textContent = T(open ? 'cat.hide' : 'cat.full');
+    if (open) {
+      stage.hidden = false;
+      ScrollTrigger.refresh();
+      if (M && !reduce) M.animate(stage, { opacity: [0, 1], transform: ['translateY(24px)', 'translateY(0)'] }, { duration: 0.6, ease: EASE });
+      scrollToEl(stage, -(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 80) - 10);
+    } else {
+      var go = function () { stage.hidden = true; ScrollTrigger.refresh(); };
+      scrollToEl($('[data-catbar]'), -(window.innerHeight * 0.4));
+      if (M && !reduce) Promise.resolve(M.animate(stage, { opacity: [1, 0] }, { duration: 0.25, ease: EASE_IN })).then(go); else go();
+    }
+  }
+  catToggle.addEventListener('click', function () { setCatalog(catToggle.getAttribute('aria-expanded') !== 'true'); });
+  // links pointing inside the catalogue (chips, nav) open it first
+  window._openCatalog = function () { if (stage.hidden) setCatalog(true); };
 
   /* ================================================================ MODALS */
   var openStack = [];
